@@ -7,4 +7,8 @@
     <RootNamespace>TodoList.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TodoList.Infrastructure\TodoList.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
