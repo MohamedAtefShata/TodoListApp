@@ -34,6 +34,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 // Add TodoService
 builder.Services.AddScoped<ITodoService, TodoService>();
 
+builder.Services.AddHttpContextAccessor();
+// builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,10 +46,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Add global exception handling
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-
 app.UseHttpsRedirection();
+app.UseAuthorization();
+// app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.MapControllers();
 
 app.Run();

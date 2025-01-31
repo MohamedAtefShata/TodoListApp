@@ -52,7 +52,7 @@ public class TodoService(ITodoItemRepository todoRepository) : ITodoService
                 })
                 .ToList(),
             IncompleteTodos = allTodos
-                .Where(t => t.IsCompleted)
+                .Where(t => !t.IsCompleted)
                 .Select(t => new TodoItemDto
                 {
                     Id = t.Id,

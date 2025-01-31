@@ -23,10 +23,6 @@ public class AuthService(
         if (string.IsNullOrWhiteSpace(request.UserName))
             throw new ValidationException("Username is required");
 
-        var existingUser = await userRepository.GetByUsernameAsync(request.UserName);
-        if (existingUser != null)
-            throw new ValidationException("Username is already taken");
-
         // Create new user
         var user = new User
         {
