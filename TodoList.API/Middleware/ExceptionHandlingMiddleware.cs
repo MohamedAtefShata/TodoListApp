@@ -52,7 +52,17 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 response.Message = "Unauthorized access";
                 break;
-
+            
+            case InvalidOperationException:
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                response.Message = "This is invalid operation";
+                break;
+            
+            case AggregateException:
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                response.Message = "AggregateException";
+                break;
+            
             default:
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 response.Message = "An error occurred while processing your request.";

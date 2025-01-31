@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TodoList.Core.DTOs.TodoItem;
 using TodoList.Core.Services.TodoItem;
 using TodoList.Domain;
@@ -7,31 +9,35 @@ namespace TodoList.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TodoController(ITodoService todoService) : ControllerBase
 {
-    [HttpPost("{userId}")]
-    public async Task<ActionResult<TodoItemDto>> CreateTodo(int userId, [FromBody] CreateTodoItemDto createTodoItemDto)
+    [HttpPost]
+    public async Task<ActionResult<TodoItemDto>> CreateTodo([FromBody] CreateTodoItemDto createTodoItemDto)
     {
-        var newTodo = await todoService.CreateTodoAsync(createTodoItemDto, userId);
-        return Ok(newTodo);
+        return Ok(await todoService.CreateTodoAsync(createTodoItemDto, GetCurrentUserId()));
     }
     
-    [HttpGet("{userId}")]
-    public async Task<ActionResult<TodoListDto>> GetUserTodos(int userId)
+    [HttpGet]
+    public async Task<ActionResult<TodoListDto>> GetUserTodos()
     {
-        return Ok(await todoService.GetUserTodoListAsync(userId));
+        return Ok(await todoService.GetUserTodoListAsync(GetCurrentUserId()));
     }
     
-    [HttpPut("{userId}/{todoId}")]
-    public async Task<ActionResult<TodoItem>> ChangeTodoState(int userId, int todoId)
+    [HttpPut("{todoId}")]
+    public async Task<ActionResult<TodoItem>> ChangeTodoState(int todoId)
     {
-        return Ok(await todoService.ToggleTodoCompletionAsync(userId, todoId));
+        return Ok(await todoService.ToggleTodoCompletionAsync(GetCurrentUserId(), todoId));
     }
     
-    [HttpDelete("{userId}/{todoId}")]
-    public async Task<ActionResult> DeleteTodo(int userId, int todoId)
+    [HttpDelete("{todoId}")]
+    public async Task<ActionResult> DeleteTodo(int todoId)
     {
-        await todoService.DeleteTodoAsync(userId, todoId);
+        await todoService.DeleteTodoAsync(GetCurrentUserId(), todoId);
         return NoContent();
+    }
+    private int GetCurrentUserId()
+    {
+        return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new UnauthorizedAccessException());
     }
 }

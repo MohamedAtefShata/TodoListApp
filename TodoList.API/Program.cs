@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TodoList.API.Middleware;
 using TodoList.Core.Services.Auth;
 using TodoList.Core.Services.Auth.Helpers.JwtTokenAuth;
@@ -25,9 +28,20 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITodoItemRepository, TodoItemRepository>();
 
 // Add Utilities (JwtToken gen, password Hasher)
-builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
+builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"])),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 // Add Auth Service 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -35,7 +49,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITodoService, TodoService>();
 
 builder.Services.AddHttpContextAccessor();
-// builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+builder.Services.AddTransient<ExceptionHandlingMiddlewareFactory>();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>(sp =>
+    sp.GetRequiredService<ExceptionHandlingMiddlewareFactory>().Create(sp.GetRequiredService<RequestDelegate>()));
+
 
 var app = builder.Build();
 
@@ -48,7 +65,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-// app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 app.Run();
