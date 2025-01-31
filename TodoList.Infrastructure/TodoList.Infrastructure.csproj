@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\" />
+    <Folder Include="Services\Auth\" />
+    <Folder Include="Services\TodoItem\" />
+    <Folder Include="Services\User\" />
+  </ItemGroup>
+
 </Project>
