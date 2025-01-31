@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TodoList.API.Middleware;
 using TodoList.Infrastructure.Persistence;
 using TodoList.Infrastructure.Repositories.TodoItemRepository;
 using TodoList.Infrastructure.Repositories.UserRepository;
@@ -27,6 +28,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Add global exception handling
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -7,13 +7,4 @@
     <RootNamespace>TodoList.Core</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\Auth\" />
-    <Folder Include="DTOs\TodoItem\" />
-    <Folder Include="DTOs\User\" />
-    <Folder Include="Features\Auth\" />
-    <Folder Include="Features\TodoItem\" />
-    <Folder Include="Features\User\" />
-  </ItemGroup>
-
 </Project>
