@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TodoList.API.Middleware;
 using TodoList.Core.Services.Auth;
 using TodoList.Core.Services.Auth.Helpers.JwtTokenAuth;
 using TodoList.Core.Services.Auth.Helpers.PasswordHasing;
+using TodoList.Core.Services.TodoItem;
 using TodoList.Infrastructure.Persistence;
 using TodoList.Infrastructure.Repositories.TodoItemRepository;
 using TodoList.Infrastructure.Repositories.UserRepository;
@@ -24,12 +24,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITodoItemRepository, TodoItemRepository>();
 
-// Add Utilities ( JwtToken gen ,password Hasher)
+// Add Utilities (JwtToken gen, password Hasher)
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // Add Auth Service 
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Add TodoService
+builder.Services.AddScoped<ITodoService, TodoService>();
 
 var app = builder.Build();
 
