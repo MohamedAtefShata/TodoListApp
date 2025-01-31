@@ -7,7 +7,7 @@ namespace TodoList.Infrastructure.Repositories.UserRepository;
 
 public class UserRepository(AppDbContext context) : IUserRepository
 {
-    private readonly AppDbContext dbContext = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly AppDbContext dbContext = context;
 
     public async Task<User> GetByIdAsync(int id)
     {

@@ -7,7 +7,7 @@ namespace TodoList.Infrastructure.Repositories.TodoItemRepository;
 
 public class TodoItemRepository(AppDbContext context) : ITodoItemRepository
 {
-    private readonly AppDbContext dbContext = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly AppDbContext dbContext = context;
 
     public async Task<IEnumerable<TodoItem>> GetAllByUserIdAsync(int userId)
     {
