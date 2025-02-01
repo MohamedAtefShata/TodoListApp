@@ -86,17 +86,6 @@ Environment files are located in:
 - Backend: `.env` file
 - Frontend: `environment.ts`
 
-
-## Learning Notes
-
-This project represents my first venture into Angular development, coming from a React background. Some key learnings:
-
-- While React uses JSX, Angular uses its own template syntax
-- Angular's dependency injection system differs from React's context
-- RxJS provides powerful reactive programming capabilities
-- Angular Material offers a comprehensive UI component library
-- TypeScript is more deeply integrated into Angular compared to React
-
 ## Areas for Improvement
 
 - Implement more comprehensive error handling
