@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthModule } from '../../auth.module';
@@ -11,7 +11,7 @@ import {NgIf} from '@angular/common';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  imports: [AuthModule, RouterLink,NgIf],
+  imports: [AuthModule, RouterLink,NgIf ],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   isLoading = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: NonNullableFormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
     private authService: AuthService,

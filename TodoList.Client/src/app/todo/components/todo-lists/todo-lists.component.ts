@@ -1,29 +1,34 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../../services/TodoService';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { TodoListDto } from '../../models/TodoListDto';
 import { CreateTodoItemDto } from '../../models/CreateTodoItemDto';
 import { TodoItemDto } from '../../models/TodoItemDto';
 import {TodoModule} from '../../todo.module';
+import {SessionService} from '../../../auth/services/SessionService';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-lists.component.html',
   styleUrls: ['./todo-lists.component.scss'],
-  imports: [TodoModule]
+  imports: [TodoModule,ReactiveFormsModule]
 })
 export class TodoListComponent implements OnInit {
-  private todoService = inject(TodoService);
-  private fb = inject(FormBuilder);
-
   todoForm: FormGroup;
   todoList: TodoListDto = { completedTodos: [], incompleteTodos: [] };
   isLoading = false;
   errorMessage = '';
   selectedTabIndex = 0;
 
-  constructor() {
+
+  constructor(
+    private router: Router,
+    private todoService:TodoService,
+    private sessionService:SessionService,
+    private fb : NonNullableFormBuilder,
+  ) {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1)]]
     });
@@ -63,7 +68,6 @@ export class TodoListComponent implements OnInit {
         next: (todo) => {
           this.todoList.incompleteTodos.push(todo);
           this.todoForm.reset();
-          this.errorMessage = '';
         },
         error: (error) => {
           this.errorMessage = 'Failed to create todo. Please try again.';
@@ -104,5 +108,11 @@ export class TodoListComponent implements OnInit {
           console.error('Error deleting todo:', error);
         }
       });
+  }
+  logout(): void {
+    if (!confirm('Are you sure you want to logout ?'))
+      return;
+    this.sessionService.clearSession();
+    this.router.navigate(['/auth/login']);
   }
 }

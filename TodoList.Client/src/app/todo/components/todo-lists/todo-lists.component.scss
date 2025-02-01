@@ -8,13 +8,15 @@
 }
 
 .todo-card {
-  width: 100%;
-  max-width: 500px;
-  background-color: white;
+  width: 400px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  color: white;
 
   mat-card-header {
     margin-bottom: 24px;
-
+    justify-content:space-between;
     mat-card-title {
       font-size: 24px;
       margin: 0;
@@ -66,4 +68,8 @@ mat-tab-group {
   .mat-mdc-tab-body-wrapper {
     padding: 16px 0;
   }
+}
+.logout-button {
+  color:  white;
+  font-weight: bold;
 }

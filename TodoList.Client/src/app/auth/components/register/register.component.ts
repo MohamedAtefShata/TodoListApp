@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthModule } from '../../auth.module';
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   isLoading = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: NonNullableFormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
     private authService: AuthService,

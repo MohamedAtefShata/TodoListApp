@@ -2,6 +2,9 @@
   <mat-card class="todo-card">
     <mat-card-header>
       <mat-card-title>To-Do List</mat-card-title>
+      <mat-card-actions align="end">
+        <button mat-button color="warn" (click)="logout()" style="color: red; font-weight: bold;">Logout</button>
+      </mat-card-actions>
     </mat-card-header>
 
     <mat-card-content>
@@ -21,7 +24,7 @@
       <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Add a task</mat-label>
-          <input matInput formControlName="title" placeholder="Enter your task">
+          <input matInput formControlName="title" placeholder="Enter your task then press Enter">
           @if (todoForm.get('title')?.invalid && todoForm.get('title')?.touched) {
             <mat-error>Title is required</mat-error>
           }
@@ -67,6 +70,7 @@
           }
         </mat-tab>
       </mat-tab-group>
+
     </mat-card-content>
   </mat-card>
 </div>
