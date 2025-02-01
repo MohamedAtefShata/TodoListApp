@@ -55,7 +55,6 @@ Backend:
 - Entity Framework Core
 - JWT Authentication
 - Clean Architecture
-- CQRS Pattern (optional)
 
 Frontend:
 - Angular 19
@@ -87,9 +86,6 @@ Environment files are located in:
 - Backend: `.env` file
 - Frontend: `environment.ts`
 
-## Docker Support
-
-The application includes Docker support with `docker-compose.yml` for easy deployment and development.
 
 ## Learning Notes
 
