@@ -27,13 +27,13 @@ public class TodoController(ITodoService todoService) : ControllerBase
     [HttpPut("{todoId}")]
     public async Task<ActionResult<TodoItem>> ChangeTodoState(int todoId)
     {
-        return Ok(await todoService.ToggleTodoCompletionAsync(GetCurrentUserId(), todoId));
+        return Ok(await todoService.ToggleTodoCompletionAsync(todoId, GetCurrentUserId()));
     }
     
     [HttpDelete("{todoId}")]
     public async Task<ActionResult> DeleteTodo(int todoId)
     {
-        await todoService.DeleteTodoAsync(GetCurrentUserId(), todoId);
+        await todoService.DeleteTodoAsync(todoId, GetCurrentUserId());
         return NoContent();
     }
     private int GetCurrentUserId()
