@@ -1,0 +1,72 @@
+<div class="todo-container">
+  <mat-card class="todo-card">
+    <mat-card-header>
+      <mat-card-title>To-Do List</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Error Message -->
+      @if (errorMessage) {
+        <div class="error-message">{{ errorMessage }}</div>
+      }
+
+      <!-- Loading Spinner -->
+      @if (isLoading) {
+        <div class="loading-spinner">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      }
+
+      <!-- Add Todo Form -->
+      <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Add a task</mat-label>
+          <input matInput formControlName="title" placeholder="Enter your task">
+          @if (todoForm.get('title')?.invalid && todoForm.get('title')?.touched) {
+            <mat-error>Title is required</mat-error>
+          }
+        </mat-form-field>
+      </form>
+
+      <!-- Tabs for tasks -->
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="full-width">
+        <mat-tab label="Incomplete">
+          @if (todoList.incompleteTodos.length === 0) {
+            <div class="empty-state">No incomplete tasks</div>
+          }
+          @for (todo of todoList.incompleteTodos; track todo.id) {
+            <div class="task-item">
+              <mat-checkbox
+                [checked]="todo.isCompleted"
+                (change)="toggleTodo(todo)"
+              >
+                {{ todo.title }}
+              </mat-checkbox>
+              <button mat-icon-button (click)="deleteTodo(todo)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </mat-tab>
+        <mat-tab label="Completed">
+          @if (todoList.completedTodos.length === 0) {
+            <div class="empty-state">No completed tasks</div>
+          }
+          @for (todo of todoList.completedTodos; track todo.id) {
+            <div class="task-item">
+              <mat-checkbox
+                [checked]="todo.isCompleted"
+                (change)="toggleTodo(todo)"
+              >
+                {{ todo.title }}
+              </mat-checkbox>
+              <button mat-icon-button (click)="deleteTodo(todo)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>

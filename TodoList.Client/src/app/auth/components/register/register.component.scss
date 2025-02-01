@@ -1,0 +1,59 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #8B008B, #4B0082);
+}
+
+
+
+.register-card {
+  width: 400px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  color: white;
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+
+  button {
+    min-width: 120px;
+
+    mat-spinner {
+      margin: 0 auto;
+    }
+  }
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+
+  mat-card-title {
+    font-size: 24px;
+    margin: 0;
+  }
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+
+  a {
+    color: #42a5f5;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
