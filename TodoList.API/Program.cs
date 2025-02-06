@@ -29,7 +29,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200") // Adjust this to match your Angular app URL
+            policy.WithOrigins(builder.Configuration.GetConnectionString("FrontUrl")) // Adjust this to match your Angular app URL
                   .AllowAnyMethod()
                   .AllowAnyHeader();
         });
@@ -65,7 +65,6 @@ builder.Services.AddTransient<ExceptionHandlingMiddlewareFactory>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>(sp =>
     sp.GetRequiredService<ExceptionHandlingMiddlewareFactory>().Create(sp.GetRequiredService<RequestDelegate>()));
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -75,8 +74,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 // Use CORS
 app.UseCors("AllowAngularApp");
+
+// do migrations 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

@@ -6,6 +6,7 @@ import { AuthGuard } from './auth/Utilties/AuthGuard';
 import { LoginGuard } from './auth/Utilties/LoginGuard';
 
 export const routes: Routes = [
+    { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
     { path:'auth/login', component : LoginComponent, canActivate: [LoginGuard] },
     { path:'auth/register', component : RegisterComponent, canActivate: [LoginGuard] },
     { path:'todo', component : TodoListComponent , canActivate: [AuthGuard] },
